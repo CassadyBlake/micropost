@@ -10,6 +10,9 @@ document.querySelector('.post-submit').addEventListener('click', submitPost)
 // Listen for delete post
 document.querySelector('#posts').addEventListener('click', deletePost)
 
+// Listen for edit state
+document.querySelector('#posts').addEventListener('click', enableEdit)
+
 //Get Posts
 function getPosts() {
   http.get('http://localhost:3000/posts')
@@ -49,6 +52,28 @@ function deletePost(e) {
         })
         .catch(err => console.log(err))
     }
+  }
+
+  e.preventDefault()
+}
+
+// Enable Edit State
+function enableEdit(e) {
+  if(e.target.parentElement.classList.contains('edit')) {
+    const id = e.target.parentElement.dataset.id
+    const title = e.target.parentElement.previousElementSibling.previousElementSibling.textContent
+    const body = e.target.parentElement.previousElementSibling.textContent
+
+    const data = {
+      id: id,
+      title: title,
+      body: body
+    }
+
+    // Fill form with current data
+    ui.fillForm(data)
+
+    console.log(title)
   }
 
   e.preventDefault()
